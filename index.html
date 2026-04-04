@@ -3,254 +3,731 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dezzijan's Portfolio</title>
+  <title>MrDesigner's Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
-      background: #0a0e27; 
-      color: #e6edf3; 
-      line-height: 1.6; 
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #020308;
+      color: #e2e8f0;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
     }
     
-    /* Header with Avatar */
-    .header {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 60px 20px 40px;
+    /* 🌌 Orqa fon suyuqligi */
+    #liquid-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(59, 130, 246, 0.25) 0%, transparent 50%),
+                  radial-gradient(circle at 30% 70%, rgba(139, 92, 246, 0.15) 0%, transparent 40%);
+      z-index: -1;
+      transition: background 0.1s ease;
+      pointer-events: none;
+    }
+    
+    .floating-orb {
+      position: fixed;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+      animation: floatOrb 15s ease-in-out infinite alternate;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .floating-orb:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+    .floating-orb:nth-child(2) { bottom: 20%; right: 10%; animation-delay: 5s; }
+    .floating-orb:nth-child(3) { top: 50%; left: 60%; animation-delay: 10s; width: 200px; height: 200px; }
+    
+    @keyframes floatOrb {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.1); }
+    }
+
+    /* 🧭 Navigatsiya */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(2, 3, 8, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 15px 40px;
       display: flex;
       align-items: center;
-      gap: 24px;
+      justify-content: space-between;
+      z-index: 1000;
+      border-bottom: 2px solid rgba(99,102,241,0.5);
+      box-shadow: 0 5px 30px rgba(99,102,241,0.3);
     }
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    .nav-brand {
+      font-size: 1.8rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #818cf8, #c084fc, #f472b6);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 3s ease infinite;
+      cursor: pointer;
+      text-shadow: 0 0 30px rgba(129,140,248,0.5);
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .nav-links { display: flex; gap: 30px; list-style: none; }
+    .nav-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      position: relative;
+      font-size: 1rem;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px; left: 0;
+      width: 0; height: 3px;
+      background: linear-gradient(90deg, #6366f1, #ec4899, #8b5cf6);
+      transition: width 0.3s;
+      border-radius: 2px;
+    }
+    .nav-links a:hover, .nav-links a.active { 
+      color: #fff; 
+      text-shadow: 0 0 15px rgba(99,102,241,0.8);
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+    /* 📄 Sahifalar */
+    .section {
+      display: none;
+      padding: 120px 40px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+      animation: fadeIn 0.6s ease;
+      min-height: 100vh;
+    }
+    .section.active { display: block; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 🏠 Home Section */
+    .home-content {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 3rem;
-      font-weight: bold;
-      border: 4px solid #1e3a8a;
-      flex-shrink: 0;
+      gap: 80px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      padding: 40px;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 30px;
+      border: 1px solid rgba(99,102,241,0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
     }
-    .header-text h1 {
-      font-size: 2.5rem;
-      margin-bottom: 8px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    .avatar-container {
+      position: relative;
+      text-align: center;
+    }
+    .avatar {
+      width: 220px; height: 220px;
+      border-radius: 20px;
+      object-fit: cover;
+      border: 5px solid #6366f1;
+      box-shadow: 0 0 50px rgba(99,102,241,0.6), inset 0 0 30px rgba(99,102,241,0.3);
+      transition: 0.4s;
+      image-rendering: pixelated;
+      animation: avatarFloat 4s ease-in-out infinite;
+    }
+    .avatar:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 0 70px rgba(99,102,241,0.9), inset 0 0 40px rgba(99,102,241,0.4);
+    }
+    
+    @keyframes avatarFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    .home-text { text-align: left; max-width: 650px; }
+    .home-text h1 {
+      font-size: 4rem;
+      margin-bottom: 15px;
+      background: linear-gradient(90deg, #818cf8, #c084fc, #f472b6, #60a5fa);
+      background-size: 300% 300%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
+      animation: textGradient 5s ease infinite;
+      filter: drop-shadow(0 0 20px rgba(129,140,248,0.5));
     }
-    .header-text .tagline {
-      color: #8b949e;
+    
+    @keyframes textGradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    
+    .home-text p {
+      font-size: 1.2rem;
+      color: #cbd5e1;
+      line-height: 1.9;
+      padding: 20px;
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: 15px;
+      border-left: 4px solid #6366f1;
+    }
+    .home-text strong { 
+      color: #818cf8;
+      text-shadow: 0 0 10px rgba(129,140,248,0.5);
+    }
+
+    /* 🌟 Minecraft Mascot */
+    #minecraft-mascot {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 100px;
+      height: 100px;
+      cursor: pointer;
+      z-index: 9999;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      filter: drop-shadow(0 0 15px rgba(99,102,241,0.6));
+      animation: mascotBounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes mascotBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    #minecraft-mascot img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+
+    .vibrating {
+      animation: shake 0.3s infinite, mascotBounce 0.5s ease-in-out infinite;
+    }
+    @keyframes shake {
+      0% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(8deg) scale(1.1); }
+      50% { transform: rotate(0deg) scale(1); }
+      75% { transform: rotate(-8deg) scale(1.1); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+
+    .mascot-name {
+      position: absolute;
+      top: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      white-space: nowrap;
+      box-shadow: 0 5px 20px rgba(99,102,241,0.5);
+      animation: namePulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes namePulse {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.1); }
+    }
+
+    /* 📂 Projects */
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+      font-size: 2.8rem;
+      background: linear-gradient(90deg, #818cf8, #c084fc, #f472b6);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 4s ease infinite;
+    }
+    
+    .project-tabs { 
+      display: flex; 
+      gap: 20px; 
+      margin-bottom: 50px; 
+      flex-wrap: wrap; 
+      justify-content: center; 
+    }
+    .tab-btn {
+      padding: 12px 30px;
+      background: rgba(30, 41, 59, 0.7);
+      border: 2px solid rgba(99,102,241,0.4);
+      border-radius: 30px;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 600;
       font-size: 1rem;
     }
+    .tab-btn:hover, .tab-btn.active {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 0 25px rgba(99,102,241,0.5);
+      transform: translateY(-3px);
+    }
     
-    /* Intro Section */
-    .intro {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 20px 50px;
+    .project-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+      gap: 30px; 
     }
-    .intro-box {
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-      border: 1px solid #334155;
-      border-radius: 16px;
-      padding: 30px;
-      position: relative;
+    .project-card {
+      background: rgba(22, 27, 34, 0.8);
+      border: 2px solid rgba(99,102,241,0.3);
+      border-radius: 20px;
       overflow: hidden;
+      transition: 0.4s;
+      position: relative;
     }
-    .intro-box::before {
+    .project-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(99,102,241,0.2), transparent);
+      transition: 0.5s;
     }
-    .intro-text {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: #cbd5e1;
+    .project-card:hover::before {
+      left: 100%;
     }
-    .intro-text strong {
-      color: #667eea;
-    }
-    
-    /* Sections */
-    .container { 
-      max-width: 1100px; 
-      margin: 0 auto; 
-      padding: 20px; 
-    }
-    .section { 
-      margin: 50px 0; 
-    }
-    .section h2 { 
-      font-size: 1.6rem;
-      margin-bottom: 24px;
-      padding-left: 12px;
-      border-left: 4px solid #667eea;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    /* Grid */
-    .grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-      gap: 24px; 
-    }
-    .card { 
-      background: #161b22; 
-      border: 1px solid #30363d; 
-      border-radius: 12px; 
-      overflow: hidden; 
-      transition: all 0.3s ease;
-    }
-    .card:hover { 
-      transform: translateY(-6px); 
-      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
-      border-color: #667eea;
+    .project-card:hover { 
+      transform: translateY(-10px) scale(1.02); 
+      box-shadow: 0 15px 40px rgba(99,102,241,0.3);
+      border-color: #6366f1;
     }
     .card-img { 
       width: 100%; 
-      height: 160px; 
-      background: #21262d; 
+      height: 200px; 
+      background: linear-gradient(135deg, #1e293b, #334155); 
       display: flex; 
       align-items: center; 
       justify-content: center; 
-      color: #8b949e; 
-      font-size: 0.95rem;
+      color: #64748b;
+      font-size: 3rem;
     }
-    .card-body { 
-      padding: 18px; 
-    }
+    .card-body { padding: 25px; }
     .card-body h3 { 
-      margin-bottom: 6px; 
-      font-size: 1.05rem;
-      color: #e6edf3;
+      margin-bottom: 10px; 
+      font-size: 1.3rem;
+      color: #818cf8;
     }
-    .card-body p { 
-      color: #8b949e; 
-      font-size: 0.9rem; 
+    .card-body p { color: #94a3b8; font-size: 1rem; }
+
+    /* 💰 Price Cards */
+    .price-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+      gap: 40px; 
+      margin-top: 50px; 
     }
-    
-    /* Footer */
-    footer { 
+    .price-card {
+      background: rgba(22, 27, 34, 0.8);
+      border: 2px solid rgba(99,102,241,0.3);
+      border-radius: 25px;
+      padding: 40px 30px;
+      text-align: center;
+      transition: 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .price-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #6366f1, #ec4899, #8b5cf6);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .price-card:hover { 
+      transform: translateY(-15px) scale(1.05); 
+      box-shadow: 0 20px 50px rgba(99,102,241,0.4);
+      border-color: #6366f1;
+    }
+    .price-card:hover::after { opacity: 1; }
+    .price-card .icon { 
+      font-size: 3.5rem; 
+      margin-bottom: 20px;
+      animation: iconFloat 3s ease-in-out infinite;
+    }
+    @keyframes iconFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .price-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+      color: #818cf8;
+    }
+    .price-card .price { 
+      font-size: 2.8rem; 
+      font-weight: 900;
+      background: linear-gradient(90deg, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 20px 0;
+      text-shadow: 0 0 30px rgba(129,140,248,0.5);
+    }
+    .price-card p {
+      color: #94a3b8;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    /* 📞 Contact */
+    .contact-content { 
       text-align: center; 
-      padding: 40px 20px; 
-      color: #8b949e; 
-      border-top: 1px solid #30363d; 
-      margin-top: 60px;
+      margin-top: 50px;
+      padding: 50px;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 30px;
+      border: 1px solid rgba(99,102,241,0.3);
     }
-    footer a { 
-      color: #667eea; 
+    .contact-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .contact-content > p {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      margin-bottom: 40px;
+    }
+    .social-links { 
+      display: flex; 
+      justify-content: center; 
+      gap: 50px; 
+      margin-top: 30px; 
+      flex-wrap: wrap; 
+    }
+    .social-link {
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      gap: 15px;
       text-decoration: none; 
+      color: #94a3b8; 
+      transition: 0.3s;
     }
-    footer a:hover { 
-      text-decoration: underline; 
+    .social-link i {
+      font-size: 3.5rem;
+      width: 90px; height: 90px;
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: 25px;
+      border: 3px solid rgba(99,102,241,0.4);
+      transition: 0.4s;
+      position: relative;
     }
-    
-    /* Mobile */
-    @media (max-width: 640px) {
-      .header {
-        flex-direction: column;
-        text-align: center;
-        padding: 40px 20px 30px;
+    .social-link:hover i {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 0 30px rgba(99,102,241,0.6);
+      transform: translateY(-10px) rotate(360deg);
+    }
+    .social-link span {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    /* Floating particles */
+    .particle {
+      position: fixed;
+      width: 4px; height: 4px;
+      background: rgba(99,102,241,0.6);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      animation: particleFloat 10s linear infinite;
+    }
+    @keyframes particleFloat {
+      0% { 
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
       }
-      .header-text h1 {
-        font-size: 1.8rem;
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { 
+        transform: translateY(-100vh) translateX(100px);
+        opacity: 0;
       }
-      .intro-box {
-        padding: 24px;
-      }
-      .intro-text {
-        font-size: 1rem;
-      }
+    }
+
+    @media (max-width: 768px) {
+      .home-content { flex-direction: column; text-align: center; gap: 40px; padding: 30px; }
+      .home-text { text-align: center; }
+      .home-text h1 { font-size: 2.5rem; }
+      .home-text p { font-size: 1rem; }
+      nav { padding: 15px 20px; }
+      .nav-links { gap: 15px; font-size: 0.9rem; }
+      .section { padding: 100px 20px 60px; }
+      .section-title { font-size: 2rem; }
+      #minecraft-mascot { width: 70px; height: 70px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header with Avatar -->
-  <div class="header">
-    <div class="avatar">D</div>
-    <div class="header-text">
-      <h1>Dezzijan's Portfolio</h1>
-      <p class="tagline">Thumbnails • Banners • Channel Logos</p>
-    </div>
-  </div>
+  <!-- 🌌 Background -->
+  <div id="liquid-bg"></div>
+  <div class="floating-orb"></div>
+  <div class="floating-orb"></div>
+  <div class="floating-orb"></div>
+  
+  <!-- Floating Particles -->
+  <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+  <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+  <div class="particle" style="left: 70%; animation-delay: 6s;"></div>
+  <div class="particle" style="left: 90%; animation-delay: 8s;"></div>
 
-  <!-- Intro Section -->
-  <div class="intro">
-    <div class="intro-box">
-      <p class="intro-text">
-        <strong>Hi, my name is Dezzijan</strong>, I am a designer and I have 2 years of experience in this field. 
-        If you need cheap quality Thumbnail Banner Logos, I am ready.
-      </p>
-    </div>
-  </div>
+  <!-- 🧭 Nav -->
+  <nav>
+    <div class="nav-brand" onclick="showSection('home')">MrDesigner</div>
+    <ul class="nav-links">
+      <li><a href="#" class="active" onclick="showSection('home')">Home</a></li>
+      <li><a href="#" onclick="showSection('projects')">Projects</a></li>
+      <li><a href="#" onclick="showSection('price')">Price</a></li>
+      <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+    </ul>
+  </nav>
 
-  <!-- Main Content -->
-  <div class="container">
-    
-    <section class="section">
-      <h2>🎨 Thumbnail Works</h2>
-      <div class="grid">
-        <div class="card">
-          <div class="card-img">Rasm joyi 1</div>
-          <div class="card-body">
-            <h3>Gaming Thumbnail</h3>
-            <p>YouTube uchun dizayn</p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-img">Rasm joyi 2</div>
-          <div class="card-body">
-            <h3>Vlog Thumbnail</h3>
-            <p>Kanal uchun yorqin dizayn</p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-img">Rasm joyi 3</div>
-          <div class="card-body">
-            <h3>Ta'lim Thumbnail</h3>
-            <p>Soddalashgan uslub</p>
-          </div>
+  <!-- 🏠 Home -->
+  <section id="home" class="section active">
+    <div class="home-content">
+      <div class="avatar-container">
+        <!-- 👤 AVATAR RASM: O'z rasm linkingizni shu yerga qo'ying -->
+        <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=Dezzijan" alt="Dezzijan" class="avatar">
+      </div>
+      <div class="home-text">
+        <h1>MrDesigner</h1>
+        <p>
+          <strong>Hi, my name is MrDesigner</strong>, I am a designer and I have 2 years of experience in this field. 
+          If you need cheap quality Thumbnail Banner Logos, I am ready.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📂 Projects -->
+  <section id="projects" class="section">
+    <h2 class="section-title">Mening ishlarim</h2>
+    <div class="project-tabs">
+      <button class="tab-btn active" onclick="filterProjects('all')">All</button>
+      <button class="tab-btn" onclick="filterProjects('thumbnail')">Thumbnails</button>
+      <button class="tab-btn" onclick="filterProjects('banner')">Banners</button>
+      <button class="tab-btn" onclick="filterProjects('logo')">Logos</button>
+    </div>
+    <div class="project-grid" id="projectGrid">
+      <div class="project-card" data-category="thumbnail">
+        <div class="card-img">🎮</div>
+        <div class="card-body">
+          <h3>Gaming Thumbnail</h3>
+          <p>YouTube uchun yorqin va jozibali gaming thumbnail dizaynlari</p>
         </div>
       </div>
-    </section>
-
-    <section class="section">
-      <h2>📢 Banner & Logo</h2>
-      <div class="grid">
-        <div class="card">
-          <div class="card-img">Banner joyi</div>
-          <div class="card-body">
-            <h3>YouTube Banner</h3>
-            <p>Kanal muqovasi</p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-img">Logo joyi</div>
-          <div class="card-body">
-            <h3>Channel Logo</h3>
-            <p>Minimalistik belgi</p>
-          </div>
+      <div class="project-card" data-category="thumbnail">
+        <div class="card-img">📺</div>
+        <div class="card-body">
+          <h3>Vlog Thumbnail</h3>
+          <p>Zamonaviy uslubdagi vlog va lifestyle kontentlar uchun</p>
         </div>
       </div>
-    </section>
+      <div class="project-card" data-category="thumbnail">
+        <div class="card-img">📚</div>
+        <div class="card-body">
+          <h3>Education Thumbnail</h3>
+          <p>Ta'lim va ma'rifiy kontentlar uchun professional dizayn</p>
+        </div>
+      </div>
+      <div class="project-card" data-category="banner">
+        <div class="card-img">📢</div>
+        <div class="card-body">
+          <h3>YouTube Channel Banner</h3>
+          <p>Kanal muqovasi dizayni - brendingizni aks ettiradi</p>
+        </div>
+      </div>
+      <div class="project-card" data-category="banner">
+        <div class="card-img">🌐</div>
+        <div class="card-body">
+          <h3>Web Banner</h3>
+          <p>Reklama va veb-saytlar uchun banner dizaynlari</p>
+        </div>
+      </div>
+      <div class="project-card" data-category="logo">
+        <div class="card-img">🎨</div>
+        <div class="card-body">
+          <h3>Channel Logo</h3>
+          <p>Minimalistik va esda qolarli kanal logotiplari</p>
+        </div>
+      </div>
+      <div class="project-card" data-category="logo">
+        <div class="card-img">🏢</div>
+        <div class="card-body">
+          <h3>Brand Logo</h3>
+          <p>Biznes va shaxsiy brending uchun professional logo</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- 💰 Price -->
+  <section id="price" class="section">
+    <h2 class="section-title">Narxlar</h2>
+    <p style="text-align: center; color: #94a3b8; font-size: 1.2rem; margin-bottom: 30px;">
+      Sifatli dizayn, hamyonbop narxda ✨
+    </p>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="icon">🖼️</div>
+        <h3>Thumbnail</h3>
+        <div class="price">10,000 UZS</div>
+        <p>YouTube va boshqa platformalar uchun thumbnail dizayni<br>24 soat ichida tayyor</p>
+      </div>
+      
+      <div class="price-card">
+        <div class="icon">📢</div>
+        <h3>Banner</h3>
+        <div class="price">15,000 UZS</div>
+        <p>YouTube kanal banneri va reklama bannerlari<br>Cheksiz tahrirlash</p>
+      </div>
+      
+      <div class="price-card">
+        <div class="icon">🎨</div>
+        <h3>Avatar / Logo</h3>
+        <div class="price">5,000 UZS</div>
+        <p>Kanal logotipi va avatar dizayni<br>Yuqori sifatli formatlar</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📞 Contact -->
+  <section id="contact" class="section">
+    <div class="contact-content">
+      <h2><i class="fas fa-paper-plane"></i> Bog'lanish</h2>
+      <p>Buyurtma berish yoki savollar uchun quyidagi ijtimoiy tarmoqlar orqali bog'laning</p>
+      
+      <div class="social-links">
+        <a href="#" class="social-link">
+          <i class="fab fa-instagram"></i>
+          <span>Instagram</span>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-telegram"></i>
+          <span>Telegram</span>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-youtube"></i>
+          <span>YouTube</span>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-discord"></i>
+          <span>Discord</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🌟 MINECRAFT MASCOT -->
+  <div id="minecraft-mascot">
+    <div class="mascot-name">Dezzijan</div>
+    <!-- 🖼️ RASMNI O'ZGARTIRING: O'zingiz yuklagan Minecraft rasmingiz linkini shu yerga yozing -->
+    <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=Dezzijan" alt="Dezzijan">
   </div>
 
-  <footer>
-    <p>© 2026 | Bog'lanish: <a href="mailto:email@example.com">email@example.com</a></p>
-  </footer>
+  <script>
+    // 🖱️ Liquid Background
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      document.getElementById('liquid-bg').style.setProperty('--x', x + '%');
+      document.getElementById('liquid-bg').style.setProperty('--y', y + '%');
+    });
 
+    // 📄 Section Switcher
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      event.target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 📂 Project Filter
+    function filterProjects(cat) {
+      const cards = document.querySelectorAll('.project-card');
+      const btns = document.querySelectorAll('.tab-btn');
+      btns.forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      cards.forEach(card => {
+        if (cat === 'all' || card.dataset.category === cat) {
+          card.style.display = 'block';
+          card.style.animation = 'fadeIn 0.5s ease';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 🏃‍️ MASCOT LOGIC
+    const mascot = document.getElementById('minecraft-mascot');
+
+    mascot.addEventListener('mouseenter', () => {
+      mascot.classList.add('vibrating');
+    });
+    mascot.addEventListener('mouseleave', () => {
+      mascot.classList.remove('vibrating');
+    });
+
+    mascot.addEventListener('click', () => {
+      const maxX = window.innerWidth - 120;
+      const maxY = window.innerHeight - 120;
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+      
+      mascot.style.left = randomX + 'px';
+      mascot.style.top = randomY + 'px';
+      mascot.style.right = 'auto';
+      mascot.style.bottom = 'auto';
+    });
+
+    // Create more particles dynamically
+    for(let i = 0; i < 10; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 10 + 's';
+      particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+      document.body.appendChild(particle);
+    }
+  </script>
 </body>
 </html>
